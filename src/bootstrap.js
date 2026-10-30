@@ -3,6 +3,13 @@ import express from 'express';
 import UserRouter, { routes as userRoutes } from './modules/UserModule/user.controller.js';
 import { DBConnection } from './DB/db.connection.js';
 import { userModel } from './DB/models/UserModel/user.model.js';
+import { config } from "dotenv";
+
+
+config({
+    path: "./config/.env"
+})
+
 
 const app = express();
 
@@ -29,8 +36,10 @@ const bootsrtrap = async () => {
     //     userName:"yahay_22"
     // })
 
+
+
     const user = await userModel.find()
-    console.log(user);
+    // console.log(user);
 
 
 
@@ -41,9 +50,14 @@ const bootsrtrap = async () => {
         console.log({ statusCode });
         res.status(statusCode).json({
             errMsg: err.message,
-            status: statusCode
+            status: statusCode,
+            errOptions: err.cause?.options
         })
     })
+
+
+    // console.log(process.env);
+
 
 
     app.listen(3000, () => {
